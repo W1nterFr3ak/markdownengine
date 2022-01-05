@@ -14,3 +14,6 @@ $ python3 install.py
 $ python3 markdownengine.py
 ```
 
+# Navigation
+Navigating and using the application is pretty simple. On the menu bar we have the file option/dropdown that provides us the basic file commands which are open, new, save and exit.
+The next option is the help which provides the about and keyboard shortcuts as shown bellow
