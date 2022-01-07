@@ -2,6 +2,7 @@ import os
 import tkinter as tk
 import tkinter.filedialog as diag
 import tkinter.messagebox as mbox
+from time import sleep
 import markdown
 from pdfkit import from_string
 
@@ -107,6 +108,8 @@ class MarkdownEngine:
 			self.TextArea.delete(1.0,tk.END)
 
 			file = open(self.savename,"r")
+			print(f"[+] File : {self.savename} Opened Succesfull")
+
 
 			self.TextArea.insert(1.0,file.read())
 
@@ -118,11 +121,27 @@ class MarkdownEngine:
 		try:	
 			pre, ext = os.path.splitext(self.savename)
 			pfile = pre + ".pdf" 
-			file = open(self.savename,"w")
 			filec = markdown.markdown(self.TextArea.get(1.0,tk.END))
-			file.write(filec)
-			from_string(filec, pfile)
+			try:
+				from_string(filec, pfile)
+				print("[+] Pdf conversion Succesfull")
+			except OSError:
+				print(f"[!] Normal conversion failed: copying content directly to {pfile}")
+				file = open(pfile, 'w')
+				file.write(filec)
+				sleep(3)
+				print("[!] Cleaning : Note pdf my contain errors")
+				sleep(2)
+				print("[!] Info : Check if the static files linked in the markdown are availabel")
+				sleep(2)
+				print("[!] Use absolute refrence")
+				sleep(2)
+				print("[+] Bytes copied Succesfully")
+				file.close()
+
+
 		except TypeError as e:
+			print("[!] Pdf conversion Failed")
 			pass
 			
 
@@ -131,12 +150,15 @@ class MarkdownEngine:
 			self.saveFile()
 		try:	
 			pre, ext = os.path.splitext(self.savename)
+			print(pre)
 			pfile = pre + ".html" 
 			file = open(pfile,"w")
 			filec = markdown.markdown(self.TextArea.get(1.0,tk.END))
 			file.write(filec)
 			file.close()
+			print("[+] Html conversion Succesfull")
 		except TypeError as e:
+			print("[!] Html conversion failed")
 			pass 		
 
 		
@@ -165,6 +187,8 @@ class MarkdownEngine:
 				file = open(self.savename,"w")
 				file.write(self.TextArea.get(1.0,tk.END))
 				file.close()
+				print(f"[+] File : {self.savename} Creation Succesfull")
+
 				
 				# Change title
 				self.root.title(os.path.basename(self.savename) + " - MarkdownEngine")
@@ -174,6 +198,8 @@ class MarkdownEngine:
 			file = open(self.savename,"w")
 			file.write(self.TextArea.get(1.0,tk.END))
 			file.close()
+			print(f"[+] File : {self.savename} Saving Succesfull")
+
 
 
 	def run(self):

@@ -23,3 +23,4 @@ The next option is the help which provides the about and keyboard shortcuts as s
 
 ## Keyboard Shortcuts
 ![image](https://user-images.githubusercontent.com/55146805/148253774-57db13a3-c2cb-4b9f-b026-d23cfb220d40.png)
+
