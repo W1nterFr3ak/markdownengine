@@ -1,14 +1,13 @@
 import os
-import tkinter
-from tkinter import *
-from tkinter.filedialog import *
-from tkinter.messagebox import *
+import tkinter as tk
+import tkinter.filedialog as diag
+import tkinter.messagebox as mbox
 import markdown
 from pdfkit import from_string
 
 class MarkdownEngine:
 
-	root = Tk()
+	root = tk.Tk()
 	width = 600
 	height = 400
 	savename = None
@@ -16,12 +15,12 @@ class MarkdownEngine:
 	def __init__(self):
 
 		self.root.title("Untitled")
-		self.TextArea = Text(self.root)
-		self.scrollbar = Scrollbar(self.TextArea)
-		self.menubar = Menu(self.root)
-		self.help_menu = Menu(self.menubar)
-		self.menufile = Menu(self.menubar)
-		self.menuconv = Menu(self.menubar)
+		self.TextArea = tk.Text(self.root)
+		self.scrollbar = tk.Scrollbar(self.TextArea)
+		self.menubar = tk.Menu(self.root)
+		self.help_menu = tk.Menu(self.menubar)
+		self.menufile = tk.Menu(self.menubar)
+		self.menuconv = tk.Menu(self.menubar)
 
 
 
@@ -35,7 +34,7 @@ class MarkdownEngine:
 		self.root.geometry(f'{self.width}x{self.height}+{int(left)}+{int(top)}')
 		self.root.grid_rowconfigure(0, weight=1)
 		self.root.grid_columnconfigure(0, weight=1)
-		self.TextArea.grid(sticky = N + E + S + W)
+		self.TextArea.grid(sticky = tk.N + tk.E + tk.S + tk.W)
 		self.menufile.add_command(label="Open",command=self.openfile)
 		self.menufile.add_command(label="New",command=self.new)
 		self.menufile.add_command(label="Save",command=self.saveFile)
@@ -55,7 +54,7 @@ class MarkdownEngine:
 		self.menubar.add_cascade(label="Help",menu=self.help_menu)
 		self.menubar.add_cascade(label="convert", menu=self.menuconv)
 		self.root.config(menu=self.menubar)
-		self.scrollbar.pack(side=RIGHT,fill=Y)				
+		self.scrollbar.pack(side=tk.RIGHT,fill=tk.Y)				
 		self.scrollbar.config(command=self.TextArea.yview)	
 		self.TextArea.config(yscrollcommand=self.scrollbar.set)
 		# keyboard shortcut 
@@ -81,7 +80,7 @@ class MarkdownEngine:
 			MarkdownEngine is a notepad that alows you to write markdown
 			and convert to pdf or html. It is developed by Chris Byron
 		"""
-		showinfo("MarkdownEngine",txt)
+		mbox.showinfo("MarkdownEngine",txt)
 
 	def keyBsh(self):
 		txt = """
@@ -92,12 +91,12 @@ class MarkdownEngine:
 			ctrl + h - convert to html
 			ctrl + x - close
 				"""
-		showinfo("MarkdownEngine keyboard Shortcuts", txt)
+		mbox.showinfo("MarkdownEngine keyboard Shortcuts", txt)
 
 	def openfile(self):
 		
-		self.savename = askopenfilename(filetypes=(("Markdown File", "*.md , *.mdown , *.markdown"),
-                                                            ("Text File", "*.txt"),
+		self.savename = diag.askopenfilename(filetypes=(("Markdown File", "*.md , *.mdown , *.markdown"),
+                                                            ("tk.Text File", "*.txt"),
                                                             ("All Files", "*.*")))
 
 		if not self.savename:			
@@ -105,7 +104,7 @@ class MarkdownEngine:
 		else:
 			
 			self.root.title(os.path.basename(self.savename) + " - MarkdownEngine")
-			self.TextArea.delete(1.0,END)
+			self.TextArea.delete(1.0,tk.END)
 
 			file = open(self.savename,"r")
 
@@ -120,7 +119,7 @@ class MarkdownEngine:
 			pre, ext = os.path.splitext(self.savename)
 			pfile = pre + ".pdf" 
 			file = open(self.savename,"w")
-			filec = markdown.markdown(self.TextArea.get(1.0,END))
+			filec = markdown.markdown(self.TextArea.get(1.0,tk.END))
 			file.write(filec)
 			from_string(filec, pfile)
 		except TypeError as e:
@@ -134,7 +133,7 @@ class MarkdownEngine:
 			pre, ext = os.path.splitext(self.savename)
 			pfile = pre + ".html" 
 			file = open(pfile,"w")
-			filec = markdown.markdown(self.TextArea.get(1.0,END))
+			filec = markdown.markdown(self.TextArea.get(1.0,tk.END))
 			file.write(filec)
 			file.close()
 		except TypeError as e:
@@ -144,17 +143,17 @@ class MarkdownEngine:
 	def new(self):
 		self.root.title("Untitled - MarkdownEngine")
 		self.savename = None
-		self.TextArea.delete(1.0,END)
+		self.TextArea.delete(1.0,tk.END)
 
 
 	def saveFile(self):
 
 		if self.savename == None:
 			# Save  file
-			self.savename = asksaveasfilename(initialfile='Untitled.md',
+			self.savename = diag.asksaveasfilename(initialfile='Untitled.md',
 											defaultextension=".md",
 											filetypes=[("All Files","*.*"),
-												("Text Documents","*.txt"), 
+												("tk.Text Documents","*.txt"), 
 												("Markdown File", "*.md , *.mdown , *.markdown")])
 
 			if not self.savename:
@@ -164,7 +163,7 @@ class MarkdownEngine:
 				# save file
 				
 				file = open(self.savename,"w")
-				file.write(self.TextArea.get(1.0,END))
+				file.write(self.TextArea.get(1.0,tk.END))
 				file.close()
 				
 				# Change title
@@ -173,7 +172,7 @@ class MarkdownEngine:
 			
 		else:
 			file = open(self.savename,"w")
-			file.write(self.TextArea.get(1.0,END))
+			file.write(self.TextArea.get(1.0,tk.END))
 			file.close()
 
 
