@@ -5,6 +5,7 @@ import tkinter.messagebox as mbox
 from time import sleep
 import markdown
 from pdfkit import from_string
+from tkhtmlview import HTMLLabel
 
 class MarkdownEngine:
 
@@ -33,9 +34,19 @@ class MarkdownEngine:
 		top = (screenHeight / 2) - (self.height /2)
 		
 		self.root.geometry(f'{self.width}x{self.height}+{int(left)}+{int(top)}')
-		self.root.grid_rowconfigure(0, weight=1)
-		self.root.grid_columnconfigure(0, weight=1)
-		self.TextArea.grid(sticky = tk.N + tk.E + tk.S + tk.W)
+		# self.root.grid_rowconfigure(0, weight=1)
+		# self.root.grid_columnconfigure(0, weight=1)
+		# self.TextArea.grid(sticky = tk.N + tk.E + tk.S + tk.W)
+
+		# self.root.pack(fill=tk.BOTH, expand=1)
+		self.TextArea = tk.Text(self.root, width="1")
+		self.TextArea.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
+		self.outputTextArea = HTMLLabel(
+		self.root, width="1", background="white", html="<h1>Welcome</h1>")
+		self.outputTextArea.pack(fill=tk.BOTH, expand=1, side=tk.RIGHT)
+		self.outputTextArea.fit_height()
+		self.TextArea.bind("<<Modified>>", self.priv)
+
 		self.menufile.add_command(label="Open",command=self.openfile)
 		self.menufile.add_command(label="New",command=self.new)
 		self.menufile.add_command(label="Save",command=self.saveFile)
@@ -44,7 +55,8 @@ class MarkdownEngine:
 		self.menufile.add_separator()
 		self.menuconv.add_command(label="pdf",command=self.toPdf)			
 		self.menuconv.add_command(label="html",command=self.toHtml)
-		# self.menuconv.add_command(label="LateX",command=self.toLatex)			
+		# self.menuconv.add_command(label="LateX",command=self.toLatex)
+		# self.menuconv.add_command(label='preview', command=self.priv)		
 
 		self.help_menu.add_command(label="About MarkdownEngine",command=self.about)
 		self.help_menu.add_command(label="Shortcuts",command=self.keyBsh)
@@ -54,6 +66,7 @@ class MarkdownEngine:
 		self.menubar.add_cascade(label="File",menu=self.menufile)	
 		self.menubar.add_cascade(label="Help",menu=self.help_menu)
 		self.menubar.add_cascade(label="convert", menu=self.menuconv)
+
 		self.root.config(menu=self.menubar)
 		self.scrollbar.pack(side=tk.RIGHT,fill=tk.Y)				
 		self.scrollbar.config(command=self.TextArea.yview)	
@@ -82,6 +95,17 @@ class MarkdownEngine:
 			and convert to pdf or html. It is developed by Chris Byron
 		"""
 		mbox.showinfo("MarkdownEngine",txt)
+	# def priv(self):
+	# 	rd = markdown.markdown(self.TextArea.get(1.0,tk.END))
+	# 	mbox.showinfo('preview',rd)
+
+	def priv(self, event):
+		self.TextArea.edit_modified(0)
+		md2html = markdown.Markdown()
+		# self.outputTextArea.set_html(md2html.convert(self.inputeditor.get("1.0" , END)))
+		markdownText = self.TextArea.get("1.0", tk.END)
+		html = md2html.convert(markdownText)
+		self.outputTextArea.set_html(html)
 
 	def keyBsh(self):
 		txt = """
