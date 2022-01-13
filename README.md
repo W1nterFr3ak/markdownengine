@@ -1,6 +1,7 @@
 # Problem 4: Markdown engine.
 # MarkdownEngine
-![image](https://user-images.githubusercontent.com/55146805/148252980-64fc1094-1af4-4126-93ed-3959dedde4c5.png)
+
+![image](https://user-images.githubusercontent.com/55146805/149312753-7cf20d7e-bcf0-41d5-9c16-b0086c9fdc1b.png)
 
 ## Description
 This is a GUI application that is used to edit markdown files and convert to either html or pdf. The application makes use of tkinter for its GUI and both pdfkit and the markdown module to convert. The last option is convert with dropdown option of pdf and html.
@@ -24,3 +25,5 @@ The next option is the help which provides the about and keyboard shortcuts as s
 ## Keyboard Shortcuts
 ![image](https://user-images.githubusercontent.com/55146805/148253774-57db13a3-c2cb-4b9f-b026-d23cfb220d40.png)
 
+## Demo
+![](demo.gif)
