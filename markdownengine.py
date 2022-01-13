@@ -10,8 +10,8 @@ from tkhtmlview import HTMLLabel
 class MarkdownEngine:
 
 	root = tk.Tk()
-	width = 600
-	height = 400
+	width = 1000
+	height = 800
 	savename = None
 
 	def __init__(self):
@@ -42,7 +42,7 @@ class MarkdownEngine:
 		self.TextArea = tk.Text(self.root, width="1")
 		self.TextArea.pack(fill=tk.BOTH, expand=1, side=tk.LEFT)
 		self.outputTextArea = HTMLLabel(
-		self.root, width="1", background="white", html="<h1>MarkdownEngine Preview Pane</h1>")
+		self.root, width="1", background="white", html="<h2>MarkdownEngine Preview Pane</h2>")
 		self.outputTextArea.pack(fill=tk.BOTH, expand=1, side=tk.RIGHT)
 		self.outputTextArea.fit_height()
 		self.TextArea.bind("<<Modified>>", self.priv)
