@@ -102,7 +102,6 @@ class MarkdownEngine:
 	def priv(self, event):
 		self.TextArea.edit_modified(0)
 		md2html = markdown.Markdown()
-		# self.outputTextArea.set_html(md2html.convert(self.inputeditor.get("1.0" , END)))
 		markdownText = self.TextArea.get("1.0", tk.END)
 		html = md2html.convert(markdownText)
 		self.outputTextArea.set_html(html)
